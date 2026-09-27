@@ -1,26 +1,126 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --paper: #f6f4ef;
+  --card: #ffffff;
+  --sunk: #efece5;
+  --line: #e2ddd3;
+  --ink: #16202b;
+  --ink-2: #4a5563;
+  --muted: #7a8391;
+  --brand: #0b7a55;
+  --brand-soft: #e3f3ec;
+  --brand-ink: #075c40;
+  --ai: #4b47c9;
+  --ai-soft: #ecebfb;
+  --good: #0b7a55;
+  --good-soft: #e3f3ec;
+  --wait: #a86200;
+  --wait-soft: #fbf0dc;
+  --bad: #b42318;
+  --bad-soft: #fbe9e7;
+  --info: #1f5fb4;
+  --info-soft: #e6effa;
+  --bar: #0b7a55;
+  --bar-2: #9fcfb9;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --paper: #0f1418;
+    --card: #161d23;
+    --sunk: #1c252c;
+    --line: #29343d;
+    --ink: #eef1f3;
+    --ink-2: #b8c0c8;
+    --muted: #8a949e;
+    --brand: #3cc48e;
+    --brand-soft: #123327;
+    --brand-ink: #7fe0b7;
+    --ai: #9c98ff;
+    --ai-soft: #22214a;
+    --good: #3cc48e;
+    --good-soft: #123327;
+    --wait: #f0b454;
+    --wait-soft: #3a2a10;
+    --bad: #ff7a6b;
+    --bad-soft: #3d1a17;
+    --info: #7fb2ff;
+    --info-soft: #152a45;
+    --bar: #3cc48e;
+    --bar-2: #1f5e45;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme inline {
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-sunk: var(--sunk);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-ink: var(--brand-ink);
+  --color-ai: var(--ai);
+  --color-ai-soft: var(--ai-soft);
+  --color-good: var(--good);
+  --color-good-soft: var(--good-soft);
+  --color-wait: var(--wait);
+  --color-wait-soft: var(--wait-soft);
+  --color-bad: var(--bad);
+  --color-bad-soft: var(--bad-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-serif);
+  --font-mono: var(--font-mono-jb);
 }
+
+html {
+  background: var(--paper);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+.display {
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.kicker {
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.prose-prd h1 { font-family: var(--font-serif), Georgia, serif; font-size: 2.4rem; line-height: 1.1; margin: 0 0 1rem; }
+.prose-prd h2 { font-family: var(--font-serif), Georgia, serif; font-size: 1.7rem; margin: 2.6rem 0 0.8rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+.prose-prd h3 { font-weight: 600; font-size: 1.05rem; margin: 1.6rem 0 0.5rem; }
+.prose-prd p, .prose-prd li { color: var(--ink-2); line-height: 1.7; }
+.prose-prd p { margin: 0.7rem 0; }
+.prose-prd ul { list-style: disc; padding-left: 1.3rem; margin: 0.6rem 0; }
+.prose-prd ol { list-style: decimal; padding-left: 1.3rem; margin: 0.6rem 0; }
+.prose-prd strong { color: var(--ink); }
+.prose-prd blockquote { border-left: 3px solid var(--brand); padding: 0.2rem 0 0.2rem 1rem; margin: 1rem 0; color: var(--ink-2); font-style: italic; }
+.prose-prd table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; display: block; overflow-x: auto; }
+.prose-prd th, .prose-prd td { border-bottom: 1px solid var(--line); padding: 0.5rem 0.6rem; text-align: left; vertical-align: top; }
+.prose-prd th { color: var(--ink); font-weight: 600; background: var(--sunk); }
+.prose-prd td { color: var(--ink-2); }
+.prose-prd code { font-family: var(--font-mono-jb), monospace; font-size: 0.85em; background: var(--sunk); padding: 0.1rem 0.3rem; border-radius: 4px; }
+.prose-prd a { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
+.prose-prd hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }

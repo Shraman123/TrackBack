@@ -1,7 +1,7 @@
 # PRD: TrackBack — resolve missing, pending and cancelled cashback in seconds
 
 **Author:** Shraman Hazra · **Status:** Prototype built, ready for validation · **Last updated:** 27 Sep 2026
-**Links:** [Working demo](/claim) · [Wallet explainer](/wallet) · [Ops console](/ops) · [Impact & eval](/impact) · [Source](https://github.com/Shraman123/TrackBack)
+**Links:** [Working demo](https://trackback-rosy.vercel.app/claim) · [Wallet explainer](https://trackback-rosy.vercel.app/wallet) · [Ops console](https://trackback-rosy.vercel.app/ops) · [Impact & eval](https://trackback-rosy.vercel.app/impact) · [Source](https://github.com/Shraman123/TrackBack)
 
 > Unofficial concept. I don't have CashKaro's internal data. Every number below is either from public Play Store reviews (sourced, reproducible) or an explicitly labelled assumption that I'd replace with real data in week one.
 

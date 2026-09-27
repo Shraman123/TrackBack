@@ -22,7 +22,7 @@ const EN: Record<ReasonCode, Tpl> = {
   }),
   TOO_EARLY: (f) => ({
     title: "Hold on — it may still track by itself",
-    body: `${f.store} can take up to 3 days to report orders. Everything else checks out, so we'll re-check on ${f.recheckAt} and file the claim for you automatically if it still hasn't tracked. Expected cashback: ${f.expectedCashback}.`,
+    body: `${f.store} can take up to ${f.trackingLag} to report orders. Everything else checks out, so we'll re-check on ${f.recheckAt} and file the claim for you automatically if it still hasn't tracked. Expected cashback: ${f.expectedCashback}.`,
   }),
   MISSING_FIELDS: (f) => ({
     title: "We need one more detail",
@@ -89,7 +89,7 @@ const HI: Record<ReasonCode, Tpl> = {
   }),
   TOO_EARLY: (f) => ({
     title: "Thoda ruko — yeh khud track ho sakta hai",
-    body: `${f.store} ko order report karne mein 3 din tak lag sakte hain. Baaki sab sahi hai, isliye hum ${f.recheckAt} ko dobara check karenge aur tab bhi track nahi hua to claim khud file kar denge. Expected cashback: ${f.expectedCashback}.`,
+    body: `${f.store} ko order report karne mein ${f.trackingLag} tak lag sakte hain. Baaki sab sahi hai, isliye hum ${f.recheckAt} ko dobara check karenge aur tab bhi track nahi hua to claim khud file kar denge. Expected cashback: ${f.expectedCashback}.`,
   }),
   MISSING_FIELDS: (f) => ({
     title: "Ek detail aur chahiye",

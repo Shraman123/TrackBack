@@ -1,6 +1,6 @@
 # CashKaro — AI-First Product Management Intern: application kit
 
-Everything to send, say and show. Replace `[LIVE_URL]` and `[REPO_URL]` once deployed, and fill `[brackets]` with your own details.
+Everything to send, say and show. Fill `[brackets]` with your own details.
 
 ---
 
@@ -9,9 +9,9 @@ Everything to send, say and show. Replace `[LIVE_URL]` and `[REPO_URL]` once dep
 The JD doesn't list an application method. It's hosted on a CashKaro employee's OneDrive, so whoever shared that link is your best channel. Send the note below **to that person directly**, then also apply through any formal channel you find (CashKaro careers page / LinkedIn job post) and mention you've sent it.
 
 Order of attachments / links, strongest first:
-1. `[LIVE_URL]` — the case study (lands on the story, one click to the demo)
-2. `[LIVE_URL]/prd` — the PRD
-3. `[REPO_URL]` — code, eval report, research scripts
+1. `https://trackback-rosy.vercel.app` — the case study (lands on the story, one click to the demo)
+2. `https://trackback-rosy.vercel.app/prd` — the PRD
+3. `https://github.com/Shraman123/TrackBack` — code, eval report, research scripts
 4. Resume (PDF)
 5. Optional: a 90-second Loom of the demo (script in §5)
 
@@ -27,14 +27,14 @@ Your JD's hiring bar is "PRD in the morning, prototype with Claude by lunch, MVP
 
 I analysed 6,000 recent CashKaro Play Store reviews. 54% of the substantive negative ones are about the same loop: the order doesn't track, the user raises a ticket, waits 8–10 days, and often gets a cancellation with no reason. Most of that isn't a tracking bug. It's attribution rules the product never explains.
 
-So I built **TrackBack**: [LIVE_URL]
+So I built **TrackBack**: https://trackback-rosy.vercel.app
 - **Claim copilot:** share a screenshot, email or SMS (Hinglish too). Claude reads it, a deterministic rules engine checks it against the visit log and store rules, and the user gets an answer in seconds: filed for you, we'll re-check, add one thing, or no, with the exact rule.
 - **Wallet explainer:** every pending or cancelled cashback shows its step, the reason, and what happens next.
 - **Ops console:** agents only see claims that need judgment, and the reason codes turn into a list of product fixes.
 
 AI reads and words; rules decide the money. A 400-scenario test suite has 0 false auto-files, and a guardrail stops Claude from inventing numbers in messages. The PRD has RICE, metrics, an experiment design, and what I'd do in my first 30 days: a backtest on real tickets before trusting any of my assumptions.
 
-PRD: [LIVE_URL]/prd · Code: [REPO_URL]
+PRD: https://trackback-rosy.vercel.app/prd · Code: https://github.com/Shraman123/TrackBack
 
 I'm [one line: degree/year/college, or current role]. I've shipped [2–3 strongest: e.g. a live payment-recovery agent on Razorpay webhooks, an open-source fix in LiteLLM]. I can commit 3–4 months full-time in Gurugram and want to convert.
 
@@ -48,10 +48,10 @@ Shraman Hazra
 ## 3. Short versions
 
 **LinkedIn DM / connection note (≤300 chars):**
-> Hi [Name], applying for CashKaro's AI-First PM Intern role. 54% of negative CashKaro Play Store reviews are about missing/pending/cancelled cashback, so I wrote a PRD and built a working fix: [LIVE_URL]. Would value 15 min of your feedback.
+> Hi [Name], applying for CashKaro's AI-First PM Intern role. 54% of negative CashKaro Play Store reviews are about missing/pending/cancelled cashback, so I wrote a PRD and built a working fix: https://trackback-rosy.vercel.app. Would value 15 min of your feedback.
 
 **Form field "Why you?" (≈100 words):**
-> I come from engineering and I'm moving into product, which is who this role is written for. Instead of describing that, I built it for a CashKaro problem: analysed 6,000 Play Store reviews, found 54% of negative ones trace to the missing-cashback loop, wrote a PRD with RICE, metrics and an experiment plan, and shipped a working MVP with Claude (claim copilot, wallet explainer, ops console) plus an eval suite. It uses AI where it beats code (messy Hinglish screenshots) and keeps money decisions deterministic. Link: [LIVE_URL].
+> I come from engineering and I'm moving into product, which is who this role is written for. Instead of describing that, I built it for a CashKaro problem: analysed 6,000 Play Store reviews, found 54% of negative ones trace to the missing-cashback loop, wrote a PRD with RICE, metrics and an experiment plan, and shipped a working MVP with Claude (claim copilot, wallet explainer, ops console) plus an eval suite. It uses AI where it beats code (messy Hinglish screenshots) and keeps money decisions deterministic. Link: https://trackback-rosy.vercel.app.
 
 ---
 
@@ -59,7 +59,7 @@ Shraman Hazra
 
 Put TrackBack at the top of Projects.
 
-**TrackBack — missing-cashback resolver (PRD + MVP)** · [LIVE_URL]
+**TrackBack — missing-cashback resolver (PRD + MVP)** · https://trackback-rosy.vercel.app
 - Scraped and theme-coded 6,000 CashKaro Play Store reviews (Python); found 54% of negative reviews trace to the cashback claim lifecycle, and used that to scope the product
 - Wrote the PRD: root-cause analysis of affiliate attribution failures, RICE prioritisation, decision spec, north-star and guardrail metrics, A/B design, 30-day validation plan
 - Built a Next.js/TypeScript MVP with Claude (structured outputs + vision) for order extraction from screenshots/SMS/Hinglish, and a deterministic rules engine for eligibility across 16 rules

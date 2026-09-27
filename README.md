@@ -4,7 +4,7 @@
 
 > Independent concept, not affiliated with CashKaro. Store rules, users and volumes are illustrative; review data is public Play Store content.
 
-**Live:** _deploy link here_ · **PRD:** [`docs/PRD.md`](docs/PRD.md) · **Eval report:** [`eval/REPORT.md`](eval/REPORT.md)
+**Live:** [https://trackback-rosy.vercel.app](https://trackback-rosy.vercel.app) · **PRD:** [`docs/PRD.md`](docs/PRD.md) · **Eval report:** [`eval/REPORT.md`](eval/REPORT.md)
 
 ---
 

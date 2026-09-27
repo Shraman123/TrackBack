@@ -260,6 +260,7 @@ export function evaluateClaim(claim: Claim, ctx: EvalContext): Decision {
   if (tooEarly) {
     dates.recheckAt = recheckAt;
     facts.recheckAt = fmtDate(recheckAt);
+    facts.trackingLag = `${retailer.trackingLagHours} hours`;
     return decide("WAIT", "TOO_EARLY", { expectedCashback: expected });
   }
 

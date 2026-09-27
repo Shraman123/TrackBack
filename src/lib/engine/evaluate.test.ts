@@ -71,3 +71,12 @@ describe("status explainer", () => {
     expect(e.why).toMatch(/moved/);
   });
 });
+
+describe("messages", () => {
+  it("tells the user which cart items won't earn cashback", () => {
+    const s = SAMPLES.find((x) => x.id === "s_flipkart_cart")!;
+    const d = evaluateClaim(sampleClaim(s), demoContext(s.userId));
+    expect(templateMessage(d, "en").body).toMatch(/Cotton Bedsheet Double, Men's Running Shoes won't earn/);
+    expect(templateMessage(d, "hi").body).toMatch(/sirf pehle item/);
+  });
+});

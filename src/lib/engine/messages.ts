@@ -5,12 +5,20 @@ import type { Decision, ReasonCode } from "../types";
 export type Lang = "en" | "hi";
 
 type F = Record<string, string | number>;
+
+// Partial-cart caveats, so a "filed" message never over-promises.
+const cartNoteEn = (f: F) =>
+  (f.notCounted ? ` Heads-up: ${f.store} only pays cashback on the first item in a cart, so ${f.notCounted} won't earn any.` : "") +
+  (f.excludedItems ? ` ${f.excludedItems} ${String(f.excludedItems).includes(",") ? "are" : "is"} in a category ${f.store} excludes.` : "");
+const cartNoteHi = (f: F) =>
+  (f.notCounted ? ` Dhyan dein: ${f.store} cart ke sirf pehle item par cashback deta hai, isliye ${f.notCounted} par cashback nahi milega.` : "") +
+  (f.excludedItems ? ` ${f.excludedItems} ${f.store} ki excluded category mein hai.` : "");
 type Tpl = (f: F) => { title: string; body: string };
 
 const EN: Record<ReasonCode, Tpl> = {
   OK: (f) => ({
     title: "Claim filed with " + f.store,
-    body: `We matched your visit (${f.clickGap} before the order) and sent ${f.store} a complete claim for order ${f.orderId}. Expected cashback: ${f.expectedCashback}. ${f.store} usually answers by ${f.networkAnswerBy}; if accepted, it confirms around ${f.expectedConfirmBy}. You don't need to send anything else.`,
+    body: `We matched your visit (${f.clickGap} before the order) and sent ${f.store} a complete claim for order ${f.orderId}. Expected cashback: ${f.expectedCashback}. ${f.store} usually answers by ${f.networkAnswerBy}; if accepted, it confirms around ${f.expectedConfirmBy}. You don't need to send anything else.${cartNoteEn(f)}`,
   }),
   HIGH_VALUE: (f) => ({
     title: "Claim prepared, a teammate will file it",
@@ -77,7 +85,7 @@ const EN: Record<ReasonCode, Tpl> = {
 const HI: Record<ReasonCode, Tpl> = {
   OK: (f) => ({
     title: `${f.store} ke paas claim file ho gaya`,
-    body: `Aapki visit (order se ${f.clickGap} pehle) match ho gayi aur order ${f.orderId} ka poora claim ${f.store} ko bhej diya. Expected cashback: ${f.expectedCashback}. ${f.store} ka jawab ${f.networkAnswerBy} tak aata hai; accept hua to ${f.expectedConfirmBy} ke aas-paas confirm hoga. Aapko kuch aur bhejne ki zarurat nahi.`,
+    body: `Aapki visit (order se ${f.clickGap} pehle) match ho gayi aur order ${f.orderId} ka poora claim ${f.store} ko bhej diya. Expected cashback: ${f.expectedCashback}. ${f.store} ka jawab ${f.networkAnswerBy} tak aata hai; accept hua to ${f.expectedConfirmBy} ke aas-paas confirm hoga. Aapko kuch aur bhejne ki zarurat nahi.${cartNoteHi(f)}`,
   }),
   HIGH_VALUE: (f) => ({
     title: "Claim ready hai, team member file karega",

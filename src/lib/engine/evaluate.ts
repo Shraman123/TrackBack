@@ -217,6 +217,7 @@ export function evaluateClaim(claim: Claim, ctx: EvalContext): Decision {
 
   // 8. Multi-item -------------------------------------------------------------
   const notCounted = cb.lines.filter((l) => !l.excluded && !l.counted);
+  if (notCounted.length) facts.notCounted = notCounted.map((l) => l.item.name).join(", ");
   checks.push({
     id: "multi_item",
     label: "All items attributable",

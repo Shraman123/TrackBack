@@ -65,7 +65,7 @@ export default function ImpactPage() {
               highlight={(label) => [...LIFECYCLE].some((k) => THEME_LABEL[k] === label)}
             />
             <p className="text-xs text-muted mt-4">
-              Dark bars = claim-lifecycle themes TrackBack addresses. Keyword-coded with Hinglish variants; spot-check precision
+              Highlighted bars = claim-lifecycle themes TrackBack addresses. Keyword-coded with Hinglish variants; spot-check precision
               37/40 on a random sample. Code in <code>research/themes.py</code>.
             </p>
           </div>
@@ -82,7 +82,7 @@ export default function ImpactPage() {
               ))}
             </div>
             <p className="text-xs text-muted mt-4">
-              Total review volume grew ~5× from Jun to Aug 2026 (mostly 5★), while negative reviews stayed at 50–90 a month.
+              December is a partial month (data starts 17 Dec). Total review volume grew ~5× from Jun to Aug 2026 (mostly 5★), while negative reviews stayed at 50–90 a month.
               The lifecycle problem is structural.
             </p>
           </div>

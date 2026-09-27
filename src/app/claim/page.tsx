@@ -3,6 +3,8 @@ import { llmEnabled, MODEL } from "@/lib/llm/claude";
 import { ClaimDemo } from "./ClaimDemo";
 
 export const metadata = { title: "Claim demo — TrackBack" };
+// Read the API-key flag per request so adding a key later needs no rebuild.
+export const dynamic = "force-dynamic";
 
 export default function ClaimPage() {
   return (

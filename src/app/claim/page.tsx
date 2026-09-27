@@ -1,5 +1,5 @@
 import { SAMPLES, USERS } from "@/lib/data/seed";
-import { llmEnabled, MODEL } from "@/lib/llm/claude";
+import { llmEnabled, modelLabel } from "@/lib/llm";
 import { ClaimDemo } from "./ClaimDemo";
 
 export const metadata = { title: "Claim demo — TrackBack" };
@@ -22,7 +22,8 @@ export default function ClaimPage() {
         samples={SAMPLES.map(({ id, userId, title, expect, review, email, hasInvoice }) => ({ id, userId, title, expect, review, email, hasInvoice }))}
         users={USERS}
         llm={llmEnabled()}
-        model={MODEL}
+        model={modelLabel("text")}
+        visionModel={modelLabel("image")}
       />
     </div>
   );

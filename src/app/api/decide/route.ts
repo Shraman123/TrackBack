@@ -3,7 +3,7 @@ import { USERS } from "@/lib/data/seed";
 import { evaluateClaim } from "@/lib/engine/evaluate";
 import { templateMessage, type Lang } from "@/lib/engine/messages";
 import { addHours, DEMO_NOW } from "@/lib/engine/time";
-import { llmEnabled, rewriteWithClaude, type RewriteResult } from "@/lib/llm/claude";
+import { llmEnabled, rewriteMessage, type RewriteResult } from "@/lib/llm";
 import type { ClaimedOrder, Click } from "@/lib/types";
 
 interface Body {
@@ -44,9 +44,9 @@ export async function POST(req: Request) {
   let message: RewriteResult = { ...draft, source: "template" };
   if (body.polish && llmEnabled()) {
     try {
-      message = await rewriteWithClaude(decision, draft, lang);
+      message = await rewriteMessage(decision, draft, lang);
     } catch {
-      message = { ...draft, source: "template", blocked: "Claude unavailable" };
+      message = { ...draft, source: "template", blocked: "AI provider unavailable" };
     }
   }
 

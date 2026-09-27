@@ -19,7 +19,8 @@ interface SampleLite {
 
 interface ExtractResp {
   order?: ClaimedOrder;
-  via?: "claude" | "parser";
+  via?: "llm" | "parser";
+  model?: string;
   note?: string;
   warnings?: { field: string; message: string }[];
   error?: string;
@@ -27,7 +28,7 @@ interface ExtractResp {
 
 interface DecideResp {
   decision: Decision;
-  message: { title: string; body: string; source: "claude" | "template"; blocked?: string };
+  message: { title: string; body: string; source: "llm" | "template"; blocked?: string };
 }
 
 type Mode = "sample" | "paste" | "screenshot";
@@ -52,7 +53,7 @@ const HEADER_TONE: Record<string, string> = {
   neutral: "bg-ink text-paper",
 };
 
-export function ClaimDemo({ samples, users, llm, model }: { samples: SampleLite[]; users: User[]; llm: boolean; model: string }) {
+export function ClaimDemo({ samples, users, llm, model, visionModel }: { samples: SampleLite[]; users: User[]; llm: boolean; model: string; visionModel: string }) {
   const [mode, setMode] = useState<Mode>("sample");
   const [userId, setUserId] = useState("u_priya");
   const [sampleId, setSampleId] = useState<string | null>(null);
@@ -257,7 +258,7 @@ export function ClaimDemo({ samples, users, llm, model }: { samples: SampleLite[
                   <input type="file" accept="image/png,image/jpeg,image/webp" className="sr-only" onChange={(e) => e.target.files?.[0] && onFile(e.target.files[0])} />
                   <div className="text-sm text-ink font-medium">{busy === "extract" ? "Reading screenshot…" : "Drop an order screenshot"}</div>
                   <div className="text-xs text-muted mt-1">
-                    {llm ? `Read by Claude (${model})` : "Needs Claude — not configured on this deployment. Use Paste email instead."}
+                    {llm ? `Read by ${visionModel}` : "Needs an AI key — not configured on this deployment. Use Paste email instead."}
                   </div>
                 </label>
               )}
@@ -313,10 +314,10 @@ export function ClaimDemo({ samples, users, llm, model }: { samples: SampleLite[
                 <DateRow d={d} />
                 <Actions d={d} onInvoice={() => order && (patch({ hasInvoice: true }), runDecide({ ...order, hasInvoice: true }))} />
                 <div className="text-[11px] text-muted flex items-center gap-1.5">
-                  {result.message.source === "claude" ? (
-                    <Pill tone="ai">Worded by Claude · facts from rules engine</Pill>
+                  {result.message.source === "llm" ? (
+                    <Pill tone="ai">Worded by {model} · facts from rules engine</Pill>
                   ) : (
-                    <span>Message from approved template{result.message.blocked ? ` (Claude rewrite rejected: ${result.message.blocked})` : ""}</span>
+                    <span>Message from approved template{result.message.blocked ? ` (AI rewrite rejected: ${result.message.blocked})` : ""}</span>
                   )}
                 </div>
               </div>
@@ -325,7 +326,7 @@ export function ClaimDemo({ samples, users, llm, model }: { samples: SampleLite[
           {llm && (
             <label className="flex items-center gap-2 text-xs text-ink-2">
               <input type="checkbox" checked={polish} onChange={(e) => setPolish(e.target.checked)} />
-              Let Claude word the message (numbers are locked by a guardrail)
+              Let the AI word the message (numbers are locked by a guardrail)
             </label>
           )}
         </div>
@@ -355,7 +356,7 @@ export function ClaimDemo({ samples, users, llm, model }: { samples: SampleLite[
           <div className="card p-5">
             <div className="flex items-center justify-between gap-2 mb-3">
               <h3 className="font-semibold text-ink">1 · Order read</h3>
-              {extract.via === "claude" ? <Pill tone="ai">Claude ({model})</Pill> : <Pill tone="neutral">Rule-based parser</Pill>}
+              {extract.via === "llm" ? <Pill tone="ai">AI · {extract.model}</Pill> : <Pill tone="neutral">Rule-based parser</Pill>}
             </div>
             {extract.note && <p className="text-xs text-muted mb-2">{extract.note}</p>}
             {extract.warnings && extract.warnings.length > 0 && (
@@ -401,9 +402,9 @@ export function ClaimDemo({ samples, users, llm, model }: { samples: SampleLite[
           <div className="card p-5">
             <h3 className="font-semibold text-ink mb-2">4 · Where AI is allowed</h3>
             <ul className="text-sm text-ink-2 space-y-1.5">
-              <li><Pill tone="ai">Claude</Pill> reads messy screenshots, forwarded emails, SMS and Hinglish into fields. Every field is sanity-checked and shown to the user to confirm.</li>
+              <li><Pill tone="ai">LLM</Pill> reads messy screenshots, forwarded emails, SMS and Hinglish into fields. Every field is sanity-checked and shown to the user to confirm.</li>
               <li><Pill tone="neutral">Rules</Pill> decide eligibility and the amount. Money decisions stay deterministic, testable and explainable to a store.</li>
-              <li><Pill tone="ai">Claude</Pill> may reword the message warmly (EN/Hinglish). A guardrail rejects any rewrite that adds a number, date or amount the engine didn&rsquo;t produce.</li>
+              <li><Pill tone="ai">LLM</Pill> may reword the message warmly (EN/Hinglish). A guardrail rejects any rewrite that adds a number, date or amount the engine didn&rsquo;t produce.</li>
             </ul>
           </div>
         )}

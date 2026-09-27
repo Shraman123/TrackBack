@@ -1,11 +1,20 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { parseOrderText } from "@/lib/extract/parseText";
 import { validateOrder } from "@/lib/extract/validate";
-import { extractOrderWithClaude, llmEnabled, type ExtractInput } from "@/lib/llm/claude";
+import { extractOrder, llmEnabled, modelLabel, type ExtractInput } from "@/lib/llm";
+import { GroqError } from "@/lib/llm/groq";
 import type { ClaimedOrder } from "@/lib/types";
 
 const IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp"] as const;
 const MAX_IMAGE_BYTES = 4_000_000;
+
+function describeError(err: unknown): string {
+  const status =
+    err instanceof GroqError ? err.status : err instanceof Anthropic.APIError ? err.status : null;
+  if (status === 429) return "The AI model is rate-limited right now; used the rule-based parser.";
+  if (status) return `AI provider error ${status}; used the rule-based parser.`;
+  return "Couldn't reach the AI provider; used the rule-based parser.";
+}
 
 export async function POST(req: Request) {
   const body = (await req.json().catch(() => null)) as
@@ -28,35 +37,31 @@ export async function POST(req: Request) {
   }
 
   let order: ClaimedOrder | null = null;
-  let via: "claude" | "parser" = "parser";
+  let via: "llm" | "parser" = "parser";
   let note: string | undefined;
+  const model = modelLabel(input.kind);
 
   if (llmEnabled()) {
     try {
-      order = await extractOrderWithClaude(input);
-      if (order) via = "claude";
-      else note = "Claude returned no usable fields; used the rule-based parser.";
+      order = await extractOrder(input);
+      if (order) via = "llm";
+      else note = "The model returned no usable fields; used the rule-based parser.";
     } catch (err) {
-      note =
-        err instanceof Anthropic.RateLimitError
-          ? "Claude is rate-limited right now; used the rule-based parser."
-          : err instanceof Anthropic.APIError
-            ? `Claude API error ${err.status}; used the rule-based parser.`
-            : "Couldn't reach Claude; used the rule-based parser.";
+      note = describeError(err);
     }
   } else {
-    note = "No API key configured; used the rule-based parser.";
+    note = "No AI key configured; used the rule-based parser.";
   }
 
   if (!order) {
     if (input.kind === "image") {
       return Response.json(
-        { error: "Reading screenshots needs Claude, which isn't configured here. Paste the order email text instead.", note },
+        { error: "Couldn't read that screenshot. Paste the order email text instead.", note },
         { status: 422 },
       );
     }
     order = parseOrderText(input.text);
   }
 
-  return Response.json({ order, via, note, warnings: validateOrder(order) });
+  return Response.json({ order, via, model: via === "llm" ? model : "rule-based parser", note, warnings: validateOrder(order) });
 }

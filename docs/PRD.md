@@ -13,7 +13,7 @@ When cashback doesn't track, users raise a ticket, wait 8–10 days, get asked f
 
 TrackBack replaces the loop with three things:
 
-1. **Claim copilot (user):** share an order screenshot or email → Claude reads it → a rules engine checks it against the visit log and store rules → the user gets a definitive answer in seconds: *filed for you*, *wait, we'll re-check automatically*, *add one thing*, or *no, and here's the exact rule*.
+1. **Claim copilot (user):** share an order screenshot or email → an LLM reads it → a rules engine checks it against the visit log and store rules → the user gets a definitive answer in seconds: *filed for you*, *wait, we'll re-check automatically*, *add one thing*, or *no, and here's the exact rule*.
 2. **Wallet explainer (user):** every pending or cancelled cashback shows which step it's at, what the store is waiting for, and what happens next. Dates never move silently.
 3. **Ops console (internal):** agents only see claims that need judgment (high value or risk), with evidence and a drafted reply already there. Reason codes roll up into a list of product fixes that would stop claims happening at all.
 
@@ -91,7 +91,7 @@ Most "missing" cashback isn't a bug. It's attribution mechanics the user can't s
 
 ### 4.1 Principles
 
-1. **AI reads, rules decide, AI words.** Claude extracts order fields from messy screenshots, forwarded emails, SMS and Hinglish messages, and may rephrase messages. Eligibility and amounts come from a deterministic engine that's testable and explainable to a store.
+1. **AI reads, rules decide, AI words.** An LLM extracts order fields from messy screenshots, forwarded emails, SMS and Hinglish messages, and may rephrase messages. Eligibility and amounts come from a deterministic engine that's testable and explainable to a store.
 2. **Every "no" names the rule and has a human route.** No dead ends.
 3. **Don't make a user wait for a "no".** Rule checks run before the 72-hour tracking-delay check.
 4. **Dates never move silently.** A moved date always comes with the reason.
@@ -101,7 +101,7 @@ Most "missing" cashback isn't a bug. It's attribution mechanics the user can't s
 
 ```
 Order screenshot / email / SMS
-      │  Claude (structured output) — or rule-based parser as fallback
+      │  LLM (JSON validated against a schema) — or rule-based parser as fallback
       ▼
 Extracted fields ── sanity checks (order-ID format per store, items vs total, date range)
       │  user confirms / edits
@@ -115,7 +115,7 @@ Rules engine (visit log + wallet + store rules + user history)
       ├─ HUMAN_REVIEW    → ops queue with evidence + drafted reply
       └─ ALREADY_TRACKED → open the wallet explainer for that order
       ▼
-Message: approved template (EN / Hinglish) — optionally reworded by Claude,
+Message: approved template (EN / Hinglish) — optionally reworded by the LLM,
          rejected if it introduces any number/date/amount not in the template
 ```
 
@@ -215,7 +215,7 @@ RICE on the candidate solutions. Reach is per quarter, relative and illustrative
 | LLM misreads a field | Structured output, per-store ID formats, items-vs-total check, user confirms fields; AI never sets eligibility or amount |
 | LLM rewrite changes a number | Guardrail rejects any rewrite with a number not in the approved template; falls back to template |
 | Store rules change silently | Rules as config owned by partnerships; alert when a store's auto-file rejection rate drifts |
-| API outage / cost | Rule-based parser fallback (93.6% field accuracy on test set); extraction is a single low-effort call per claim |
+| API outage / cost / rate limits | Rule-based parser fallback (93.6% field accuracy on test set); provider-agnostic layer (Groq free tier or Claude); one call per claim |
 
 ---
 
@@ -245,7 +245,7 @@ RICE on the candidate solutions. Reach is per quarter, relative and illustrative
 |---|---|
 | Review scrape + theme coding | **Real.** 6,000 reviews, reproducible scripts |
 | Rules engine, status explainer, messages (EN + Hinglish) | **Built.** Unit-tested; 400-scenario suite + 16 boundary cases |
-| Claude extraction (text + screenshot) + guarded rewrite | **Built.** Runs when `ANTHROPIC_API_KEY` is set; parser fallback otherwise |
+| LLM extraction (text + screenshot) + guarded rewrite | **Built.** Groq (gpt-oss-120b text, Qwen vision) when `GROQ_API_KEY` is set, Claude when `ANTHROPIC_API_KEY` is set; parser fallback otherwise. 92.3% of test documents fully right vs 84.6% for the parser |
 | Visit logs, wallet, users, store rules | **Mocked.** Illustrative data shaped like real affiliate programs |
 | Network claim submission | **Mocked.** Payload is built; no network is called |
 | Ops console actions, override log | **Built in-session** (no persistence in the demo) |

@@ -209,7 +209,7 @@ export default function ImpactPage() {
                 <td className="py-2 pl-4 text-ink-2 text-xs">{results.extraction.parser.misses.map((m) => `${m.case.replace("x_", "")}: ${m.wrong.join(", ")}`).join(" · ") || "none"}</td>
               </tr>
               <tr>
-                <td className="py-2 text-ink">Claude</td>
+                <td className="py-2 text-ink">LLM {results.extraction.claude ? `(${(results.extraction.claude as { model: string }).model} on Groq)` : ""}</td>
                 {results.extraction.claude ? (
                   <>
                     <td className="py-2 text-right tabular-nums">{pct((results.extraction.claude as { allRight: number }).allRight, 1)}</td>
@@ -217,7 +217,7 @@ export default function ImpactPage() {
                     <td className="py-2 pl-4 text-ink-2 text-xs">{((results.extraction.claude as { misses: { case: string; wrong: string[] }[] }).misses).map((m) => `${m.case.replace("x_", "")}: ${m.wrong.join(", ")}`).join(" · ") || "none"}</td>
                   </>
                 ) : (
-                  <td colSpan={3} className="py-2 text-right text-muted text-xs">Run <code>npm run eval -- --claude</code> with an API key to score it.</td>
+                  <td colSpan={3} className="py-2 text-right text-muted text-xs">Run <code>npm run eval -- --llm</code> with an API key to score it.</td>
                 )}
               </tr>
             </tbody>

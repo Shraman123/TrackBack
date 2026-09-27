@@ -1,7 +1,7 @@
 /**
  * Offline eval for TrackBack.
  *   npm run eval            -> engine suite, edge cases, parser extraction, impact stream
- *   ANTHROPIC_API_KEY=... npm run eval -- --claude   -> also scores Claude extraction
+ *   GROQ_API_KEY=... npm run eval -- --llm   -> also scores LLM extraction (Groq, or Anthropic if only ANTHROPIC_API_KEY is set)
  *
  * Writes src/lib/sim/evalResults.json (read by the /impact page) and eval/REPORT.md.
  */
@@ -66,15 +66,18 @@ const parserScores = EXTRACTION_CASES.map((c) => scoreExtraction(c, parseOrderTe
 const parser = summarize(parserScores);
 
 let claude: (ReturnType<typeof summarize> & { model: string }) | null = null;
-if (process.argv.includes("--claude")) {
-  const { extractOrderWithClaude, llmEnabled, MODEL } = await import("../src/lib/llm/claude.ts");
+if (process.argv.includes("--llm") || process.argv.includes("--claude")) {
+  const { extractOrder, llmEnabled, modelLabel } = await import("../src/lib/llm/index.ts");
   if (!llmEnabled()) {
-    console.log("--claude given but ANTHROPIC_API_KEY is not set; skipping Claude extraction.");
+    console.log("--llm given but no GROQ_API_KEY / ANTHROPIC_API_KEY is set; skipping LLM extraction.");
   } else {
-    console.log(`Scoring Claude extraction with ${MODEL} on ${EXTRACTION_CASES.length} cases...`);
+    const MODEL = modelLabel("text");
+    console.log(`Scoring LLM extraction with ${MODEL} on ${EXTRACTION_CASES.length} cases...`);
     const scores: FieldScore[] = [];
     for (const c of EXTRACTION_CASES) {
-      const o = await extractOrderWithClaude({ kind: "text", text: c.text }).catch(() => null);
+      // Free-tier Groq allows ~8k tokens/min; pace calls so the score measures the model, not the quota.
+      if (process.env.GROQ_API_KEY) await new Promise((r) => setTimeout(r, 9000));
+      const o = await extractOrder({ kind: "text", text: c.text }).catch((e) => (console.log(c.id, String(e).slice(0, 200)), null));
       scores.push(scoreExtraction(c, o));
     }
     claude = { ...summarize(scores), model: MODEL };
@@ -151,10 +154,10 @@ ${edge.map((e) => `| ${e.id} | ${e.why} | ${e.expected} | ${e.pass ? "✅" : "�
 | Extractor | All fields right | Field accuracy |
 |---|---|---|
 | Rule-based parser (fallback) | ${pct(parser.allRight)} | ${pct(parser.fieldAcc)} |
-${claude ? `| Claude (${claude.model}) | ${pct(claude.allRight)} | ${pct(claude.fieldAcc)} |` : "| Claude | _not run — needs ANTHROPIC_API_KEY and `--claude`_ | |"}
+${claude ? `| LLM (${claude.model}) | ${pct(claude.allRight)} | ${pct(claude.fieldAcc)} |` : "| LLM | _not run — needs GROQ_API_KEY (or ANTHROPIC_API_KEY) and `--llm`_ | |"}
 
 Parser misses: ${parser.misses.map((m) => `${m.case} (${m.wrong.join(", ")})`).join("; ") || "none"}
-${claude ? `\nClaude misses: ${claude.misses.map((m) => `${m.case} (${m.wrong.join(", ")})`).join("; ") || "none"}` : ""}
+${claude ? `\nLLM misses: ${claude.misses.map((m) => `${m.case} (${m.wrong.join(", ")})`).join("; ") || "none"}` : ""}
 
 ## 4. Impact stream — 1,000 claims at the assumed mix
 

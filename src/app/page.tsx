@@ -9,7 +9,7 @@ const SURFACES = [
     href: "/claim",
     kicker: "User · claim copilot",
     title: "“It didn’t track” → answered in seconds",
-    body: "Share a screenshot, email or SMS. Claude reads it, the rules engine checks it against the visit log, and the user gets: filed for you, wait (we’ll re-check), add one thing, or no, with the exact rule.",
+    body: "Share a screenshot, email or SMS. An LLM reads it, the rules engine checks it against the visit log, and the user gets: filed for you, wait (we’ll re-check), add one thing, or no, with the exact rule.",
   },
   {
     href: "/wallet",
@@ -27,7 +27,7 @@ const SURFACES = [
     href: "/impact",
     kicker: "Proof · impact & eval",
     title: "Measured, not asserted",
-    body: "Review analysis, a 1,000-claim simulation, an impact model you can edit, a 400-scenario test suite with zero false auto-files, and parser vs Claude extraction scores.",
+    body: "Review analysis, a 1,000-claim simulation, an impact model you can edit, a 400-scenario test suite with zero false auto-files, and parser vs LLM extraction scores.",
   },
 ];
 
@@ -35,7 +35,7 @@ const BUILD = [
   ["Problem", "Scraped 6,000 Play Store reviews, coded 633 complaints into themes (Python, reproducible)."],
   ["PRD", "Root causes, RICE prioritisation, decision spec, metrics, experiment and a 30-day validation plan."],
   ["Engine", "Deterministic rules engine + status explainer in TypeScript, unit-tested boundary by boundary."],
-  ["AI layer", "Claude structured extraction for screenshots/Hinglish; guarded rewrite that can't invent numbers."],
+  ["AI layer", "LLM extraction for screenshots, SMS and Hinglish (gpt-oss-120b + Qwen vision on Groq, Claude supported), validated against a schema; guarded rewrite that can't invent numbers."],
   ["Product", "Next.js app: claim flow, wallet, ops console, impact page. Fallbacks when the API is off."],
   ["Eval", "Planted-scenario suite, edge cases, extraction scoring, impact stream: one command, same numbers every run."],
 ];
@@ -108,9 +108,9 @@ export default function Home() {
           <h2 className="display text-3xl md:text-4xl text-ink mb-6">AI reads. Rules decide. AI words, inside a guardrail.</h2>
           <div className="grid md:grid-cols-3 gap-4">
             {[
-              ["Claude reads", "Screenshots, forwarded emails, SMS and Hinglish chat become structured order fields. Every field is sanity-checked and confirmed by the user.", "ai"],
+              ["AI reads", "Screenshots, forwarded emails, SMS and Hinglish chat become structured order fields. Every field is sanity-checked and confirmed by the user.", "ai"],
               ["Rules decide", "Eligibility and cashback amount are deterministic: auditable, testable, explainable to a store and to a regulator. No model decides money.", "brand"],
-              ["Claude words", "Messages can be rewritten warmly in English or Hinglish. A guardrail rejects any rewrite that adds a number, date or amount the engine didn't produce.", "ai"],
+              ["AI words", "Messages can be rewritten warmly in English or Hinglish. A guardrail rejects any rewrite that adds a number, date or amount the engine didn't produce.", "ai"],
             ].map(([t, b, tone], i) => (
               <div key={t} className={`rounded-xl p-5 ${tone === "ai" ? "bg-ai-soft" : "bg-brand-soft"}`}>
                 <div className={`text-xs font-mono ${tone === "ai" ? "text-ai" : "text-brand-ink"}`}>0{i + 1}</div>
@@ -137,7 +137,7 @@ export default function Home() {
             what it produced. Where it was wrong (a regex that matched &ldquo;Order Confirmation&rdquo; as an order ID, a test that
             assumed the wrong cashback rate), review and the tests caught it before it shipped.
           </p>
-          <p className="text-sm text-muted mt-4">Next.js · TypeScript · Tailwind · Claude API (structured outputs, vision) · Vitest · Python for research</p>
+          <p className="text-sm text-muted mt-4">Next.js · TypeScript · Tailwind · LLMs via Groq (gpt-oss-120b, Qwen vision) and the Claude API · Vitest · Python for research</p>
         </div>
         <ol className="space-y-3">
           {BUILD.map(([k, v], i) => (

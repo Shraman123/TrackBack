@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-27T11:28:22.099Z",
+  "generatedAt": "2026-09-27T11:54:29.623Z",
   "suite": {
     "n": 400,
     "perReason": 25,
@@ -229,7 +229,28 @@
         }
       ]
     },
-    "claude": null
+    "claude": {
+      "perField": {
+        "store": 1,
+        "orderId": 1,
+        "amount": 1,
+        "items": 0.9230769230769231,
+        "status": 1,
+        "coupon": 1
+      },
+      "allRight": 0.9230769230769231,
+      "fieldAcc": 0.9871794871794872,
+      "n": 13,
+      "misses": [
+        {
+          "case": "x_messy_sms",
+          "wrong": [
+            "items"
+          ]
+        }
+      ],
+      "model": "openai/gpt-oss-120b"
+    }
   },
   "impact": {
     "n": 1000,

@@ -48,10 +48,11 @@ No failures.
 | Extractor | All fields right | Field accuracy |
 |---|---|---|
 | Rule-based parser (fallback) | 84.6% | 93.6% |
-| Claude | _not run — needs ANTHROPIC_API_KEY and `--claude`_ | |
+| LLM (openai/gpt-oss-120b) | 92.3% | 98.7% |
 
 Parser misses: x_messy_sms (items); x_messy_hinglish (amount, items, status, coupon)
 
+LLM misses: x_messy_sms (items)
 
 ## 4. Impact stream — 1,000 claims at the assumed mix
 

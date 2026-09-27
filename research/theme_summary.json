@@ -1,0 +1,97 @@
+{
+  "total_reviews": 6000,
+  "window": [
+    "2025-12-17",
+    "2026-09-26"
+  ],
+  "rating_dist": {
+    "5": 4450,
+    "1": 673,
+    "2": 77,
+    "4": 621,
+    "3": 179
+  },
+  "negative_n": 633,
+  "theme_counts": {
+    "cancelled_rejected": 152,
+    "stuck_pending": 133,
+    "not_received": 99,
+    "no_explanation": 88,
+    "not_tracked": 70,
+    "eligibility_tnc": 30,
+    "amount_mismatch": 25,
+    "app_bug": 24,
+    "withdrawal_payout": 21,
+    "account_blocked": 17,
+    "fin_products": 17
+  },
+  "theme_share": {
+    "cancelled_rejected": 0.24,
+    "stuck_pending": 0.21,
+    "not_received": 0.156,
+    "no_explanation": 0.139,
+    "not_tracked": 0.111,
+    "eligibility_tnc": 0.047,
+    "amount_mismatch": 0.039,
+    "app_bug": 0.038,
+    "withdrawal_payout": 0.033,
+    "account_blocked": 0.027,
+    "fin_products": 0.027
+  },
+  "uncoded": 211,
+  "any_claim_lifecycle": 344,
+  "lifecycle+no_explanation": 53,
+  "by_month": {
+    "2025-12": {
+      "all": 229,
+      "neg": 31,
+      "lifecycle": 23
+    },
+    "2026-01": {
+      "all": 450,
+      "neg": 77,
+      "lifecycle": 45
+    },
+    "2026-02": {
+      "all": 316,
+      "neg": 61,
+      "lifecycle": 32
+    },
+    "2026-03": {
+      "all": 324,
+      "neg": 64,
+      "lifecycle": 36
+    },
+    "2026-04": {
+      "all": 314,
+      "neg": 57,
+      "lifecycle": 34
+    },
+    "2026-05": {
+      "all": 341,
+      "neg": 53,
+      "lifecycle": 24
+    },
+    "2026-06": {
+      "all": 546,
+      "neg": 65,
+      "lifecycle": 33
+    },
+    "2026-07": {
+      "all": 908,
+      "neg": 74,
+      "lifecycle": 33
+    },
+    "2026-08": {
+      "all": 1392,
+      "neg": 86,
+      "lifecycle": 53
+    },
+    "2026-09": {
+      "all": 1180,
+      "neg": 65,
+      "lifecycle": 31
+    }
+  },
+  "dev_reply_rate_neg": 0.967
+}

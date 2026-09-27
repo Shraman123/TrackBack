@@ -1,0 +1,300 @@
+{
+  "generatedAt": "2026-09-27T07:29:40.379Z",
+  "suite": {
+    "n": 400,
+    "perReason": 25,
+    "reasons": 16,
+    "verdictAccuracy": 1,
+    "reasonAccuracy": 1,
+    "falseApprove": 0,
+    "missedApprove": 0,
+    "noisy": {
+      "n": 180,
+      "accuracy": 1
+    },
+    "confusion": {
+      "AUTO_FILE": {
+        "AUTO_FILE": 25,
+        "WAIT": 0,
+        "NEEDS_INFO": 0,
+        "NOT_ELIGIBLE": 0,
+        "HUMAN_REVIEW": 0,
+        "ALREADY_TRACKED": 0
+      },
+      "WAIT": {
+        "AUTO_FILE": 0,
+        "WAIT": 25,
+        "NEEDS_INFO": 0,
+        "NOT_ELIGIBLE": 0,
+        "HUMAN_REVIEW": 0,
+        "ALREADY_TRACKED": 0
+      },
+      "NEEDS_INFO": {
+        "AUTO_FILE": 0,
+        "WAIT": 0,
+        "NEEDS_INFO": 50,
+        "NOT_ELIGIBLE": 0,
+        "HUMAN_REVIEW": 0,
+        "ALREADY_TRACKED": 0
+      },
+      "NOT_ELIGIBLE": {
+        "AUTO_FILE": 0,
+        "WAIT": 0,
+        "NEEDS_INFO": 0,
+        "NOT_ELIGIBLE": 225,
+        "HUMAN_REVIEW": 0,
+        "ALREADY_TRACKED": 0
+      },
+      "HUMAN_REVIEW": {
+        "AUTO_FILE": 0,
+        "WAIT": 0,
+        "NEEDS_INFO": 0,
+        "NOT_ELIGIBLE": 0,
+        "HUMAN_REVIEW": 50,
+        "ALREADY_TRACKED": 0
+      },
+      "ALREADY_TRACKED": {
+        "AUTO_FILE": 0,
+        "WAIT": 0,
+        "NEEDS_INFO": 0,
+        "NOT_ELIGIBLE": 0,
+        "HUMAN_REVIEW": 0,
+        "ALREADY_TRACKED": 25
+      }
+    },
+    "failures": []
+  },
+  "edge": {
+    "n": 16,
+    "passed": 16,
+    "cases": [
+      {
+        "id": "E01",
+        "why": "Order 23.9 h after the visit is inside Amazon's 24 h window",
+        "expected": "AUTO_FILE",
+        "got": "AUTO_FILE",
+        "reason": "OK",
+        "pass": true
+      },
+      {
+        "id": "E02",
+        "why": "Order 24.1 h after the visit is outside it",
+        "expected": "NOT_ELIGIBLE",
+        "got": "NOT_ELIGIBLE",
+        "reason": "CLICK_OUTSIDE_WINDOW",
+        "pass": true
+      },
+      {
+        "id": "E03",
+        "why": "User opened the app 10 min after buying (common) — not attributable",
+        "expected": "NOT_ELIGIBLE",
+        "got": "NOT_ELIGIBLE",
+        "reason": "CLICK_AFTER_ORDER",
+        "pass": true
+      },
+      {
+        "id": "E04",
+        "why": "Flipkart credits one item; an excluded gift card first in the cart must not eat that slot",
+        "expected": "AUTO_FILE",
+        "got": "AUTO_FILE",
+        "reason": "OK",
+        "pass": true
+      },
+      {
+        "id": "E05",
+        "why": "Claim on the last day of the window is accepted",
+        "expected": "AUTO_FILE",
+        "got": "AUTO_FILE",
+        "reason": "OK",
+        "pass": true
+      },
+      {
+        "id": "E06",
+        "why": "Exchange at Myntra doesn't void cashback",
+        "expected": "AUTO_FILE",
+        "got": "AUTO_FILE",
+        "reason": "OK",
+        "pass": true
+      },
+      {
+        "id": "E07",
+        "why": "Exchange at Amazon does",
+        "expected": "NOT_ELIGIBLE",
+        "got": "NOT_ELIGIBLE",
+        "reason": "EXCHANGE_VOIDS",
+        "pass": true
+      },
+      {
+        "id": "E08",
+        "why": "Myntra's own coupon is fine",
+        "expected": "AUTO_FILE",
+        "got": "AUTO_FILE",
+        "reason": "OK",
+        "pass": true
+      },
+      {
+        "id": "E09",
+        "why": "Outside coupon at a store that allows any coupon",
+        "expected": "AUTO_FILE",
+        "got": "AUTO_FILE",
+        "reason": "OK",
+        "pass": true
+      },
+      {
+        "id": "E10",
+        "why": "₹4,999 order with no invoice goes through",
+        "expected": "AUTO_FILE",
+        "got": "AUTO_FILE",
+        "reason": "OK",
+        "pass": true
+      },
+      {
+        "id": "E11",
+        "why": "₹5,000 order with no invoice asks for it",
+        "expected": "NEEDS_INFO",
+        "got": "NEEDS_INFO",
+        "reason": "INVOICE_REQUIRED",
+        "pass": true
+      },
+      {
+        "id": "E12",
+        "why": "High value but no visit: say no now, don't waste a reviewer's time",
+        "expected": "NOT_ELIGIBLE",
+        "got": "NOT_ELIGIBLE",
+        "reason": "NO_CLICK",
+        "pass": true
+      },
+      {
+        "id": "E13",
+        "why": "Too early but an outside coupon already voids it: don't make the user wait 3 days for a no",
+        "expected": "NOT_ELIGIBLE",
+        "got": "NOT_ELIGIBLE",
+        "reason": "THIRD_PARTY_COUPON",
+        "pass": true
+      },
+      {
+        "id": "E14",
+        "why": "Cashback capped at ₹1,500 on Amazon still needs a human (over ₹1,000)",
+        "expected": "HUMAN_REVIEW",
+        "got": "HUMAN_REVIEW",
+        "reason": "HIGH_VALUE",
+        "pass": true
+      },
+      {
+        "id": "E15",
+        "why": "Flagged account never auto-files, even for ₹30",
+        "expected": "HUMAN_REVIEW",
+        "got": "HUMAN_REVIEW",
+        "reason": "RISK_SIGNAL",
+        "pass": true
+      },
+      {
+        "id": "E16",
+        "why": "Nykaa visit 72 h before the order, window is 24 h: outside",
+        "expected": "NOT_ELIGIBLE",
+        "got": "NOT_ELIGIBLE",
+        "reason": "CLICK_OUTSIDE_WINDOW",
+        "pass": true
+      }
+    ]
+  },
+  "extraction": {
+    "parser": {
+      "perField": {
+        "store": 1,
+        "orderId": 1,
+        "amount": 0.9230769230769231,
+        "items": 0.8461538461538461,
+        "status": 0.9230769230769231,
+        "coupon": 0.9230769230769231
+      },
+      "allRight": 0.8461538461538461,
+      "fieldAcc": 0.9358974358974359,
+      "n": 13,
+      "misses": [
+        {
+          "case": "x_messy_sms",
+          "wrong": [
+            "items"
+          ]
+        },
+        {
+          "case": "x_messy_hinglish",
+          "wrong": [
+            "amount",
+            "items",
+            "status",
+            "coupon"
+          ]
+        }
+      ]
+    },
+    "claude": null
+  },
+  "impact": {
+    "n": 1000,
+    "distribution": {
+      "AUTO_FILE": 377,
+      "WAIT": 109,
+      "NEEDS_INFO": 100,
+      "NOT_ELIGIBLE": 316,
+      "HUMAN_REVIEW": 50,
+      "ALREADY_TRACKED": 48
+    },
+    "reasons": {
+      "MISSING_FIELDS": 36,
+      "TOO_EARLY": 109,
+      "CLAIM_WINDOW_EXPIRED": 56,
+      "OK": 377,
+      "NO_CLICK": 62,
+      "THIRD_PARTY_COUPON": 43,
+      "CLICK_OUTSIDE_WINDOW": 56,
+      "ALL_ITEMS_EXCLUDED": 24,
+      "INVOICE_REQUIRED": 64,
+      "DUPLICATE_TRACKED": 48,
+      "CLICK_AFTER_ORDER": 22,
+      "ORDER_RETURNED": 14,
+      "ORDER_CANCELLED": 23,
+      "RISK_SIGNAL": 22,
+      "HIGH_VALUE": 28,
+      "EXCHANGE_VOIDS": 16
+    },
+    "avgAutoCashback": 148.77718832891247,
+    "mix": {
+      "OK": 38,
+      "TOO_EARLY": 12,
+      "MISSING_FIELDS": 4,
+      "INVOICE_REQUIRED": 6,
+      "HIGH_VALUE": 3,
+      "RISK_SIGNAL": 3,
+      "DUPLICATE_TRACKED": 4,
+      "CLAIM_WINDOW_EXPIRED": 5,
+      "NO_CLICK": 7,
+      "CLICK_AFTER_ORDER": 2,
+      "CLICK_OUTSIDE_WINDOW": 5,
+      "ORDER_CANCELLED": 2,
+      "ORDER_RETURNED": 2,
+      "EXCHANGE_VOIDS": 1,
+      "ALL_ITEMS_EXCLUDED": 2,
+      "THIRD_PARTY_COUPON": 4
+    }
+  },
+  "reasonVerdict": {
+    "OK": "AUTO_FILE",
+    "TOO_EARLY": "WAIT",
+    "MISSING_FIELDS": "NEEDS_INFO",
+    "INVOICE_REQUIRED": "NEEDS_INFO",
+    "HIGH_VALUE": "HUMAN_REVIEW",
+    "RISK_SIGNAL": "HUMAN_REVIEW",
+    "DUPLICATE_TRACKED": "ALREADY_TRACKED",
+    "CLAIM_WINDOW_EXPIRED": "NOT_ELIGIBLE",
+    "NO_CLICK": "NOT_ELIGIBLE",
+    "CLICK_AFTER_ORDER": "NOT_ELIGIBLE",
+    "CLICK_OUTSIDE_WINDOW": "NOT_ELIGIBLE",
+    "ORDER_CANCELLED": "NOT_ELIGIBLE",
+    "ORDER_RETURNED": "NOT_ELIGIBLE",
+    "EXCHANGE_VOIDS": "NOT_ELIGIBLE",
+    "ALL_ITEMS_EXCLUDED": "NOT_ELIGIBLE",
+    "THIRD_PARTY_COUPON": "NOT_ELIGIBLE"
+  }
+}

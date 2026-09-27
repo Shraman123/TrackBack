@@ -66,7 +66,11 @@ export function parseOrderText(text: string): ClaimedOrder {
   const totalLine =
     lines.find((l) => /(order total|grand total|^total\b(?! paid))/i.test(l)) ??
     lines.find((l) => /total/i.test(l));
-  const amount = totalLine ? money(totalLine.match(/(₹|Rs\.?)\s?[\d,]+(\.\d+)?/i)?.[0] ?? "") || null : null;
+  const moneyIn = (l: string) => money(l.match(/(₹|Rs\.?)\s?[\d,]+(\.\d+)?/i)?.[0] ?? "") || null;
+  const amount =
+    (totalLine && moneyIn(totalLine)) ||
+    moneyIn(text.match(/(?:you paid|total|refund of)[^\n₹]{0,20}(?:₹|Rs\.?)\s?[\d,]+/i)?.[0] ?? "") ||
+    null;
 
   const items: OrderItem[] = lines
     .filter((l) => /(₹|Rs\.?)\s?[\d,]+(\.\d+)?\s*$/i.test(l) && !/total|paid|subtotal|shipping|discount/i.test(l))
@@ -79,9 +83,15 @@ export function parseOrderText(text: string): ClaimedOrder {
   const couponCode = text.match(/coupon(?: applied| code)?\s*[:\-]?\s*([A-Z0-9]{4,})/i)?.[1]?.toUpperCase() ?? null;
 
   const statusWord = text.match(/status\s*[:\-]?\s*(\w+)/i)?.[1]?.toLowerCase() ?? "";
-  const status: OrderStatus = (
-    ["placed", "shipped", "delivered", "cancelled", "returned", "exchanged"] as const
-  ).find((s) => statusWord.startsWith(s.slice(0, 5))) ?? "placed";
+  const STATUSES = ["placed", "shipped", "delivered", "cancelled", "returned", "exchanged"] as const;
+  // Prefer an explicit "Status:" line; otherwise look for the latest lifecycle word.
+  const status: OrderStatus =
+    STATUSES.find((s) => statusWord.startsWith(s.slice(0, 5))) ??
+    (["cancelled", "returned", "exchanged", "delivered", "shipped"] as const).find((s) =>
+      new RegExp(`\\b(has been|been|order|item)\\s+(${s}|${s.replace(/ed$/, "")})`, "i").test(text) ||
+      new RegExp(`\\b${s}\\b`, "i").test(text.slice(0, 120)),
+    ) ??
+    "placed";
 
   return {
     retailerId,
